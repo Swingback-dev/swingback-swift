@@ -1,0 +1,87 @@
+{
+  "about": "What the widget and its host say to each other (ADR 0034; docs/sdks/PLAN.md). Every implementation keeps its own copy, and its tests hold that copy to this file and to fixtures.json: change the protocol here first.",
+  "version": 1,
+  "source": "swingback",
+  "paths": {
+    "widget": "/widget",
+    "settings": "/widget/settings.json",
+    "script": "/widget/v1.js"
+  },
+  "pages": {
+    "feedback": "/widget",
+    "roadmap": "/widget/roadmap",
+    "changelog": "/widget/changelog",
+    "new": "/widget/new",
+    "post": "/widget/posts/{slug}",
+    "board": "/widget/boards/{slug}"
+  },
+  "limits": {
+    "tokenMaxLength": 16384,
+    "pathMaxLength": 2048
+  },
+  "toHost": {
+    "ready": {
+      "version": "integer: the protocol the widget speaks; a widget that sends none speaks version 0"
+    },
+    "identified": {},
+    "signed-out": {},
+    "error": {
+      "code": "string: one of errors.known, or any other code"
+    },
+    "open-url": {
+      "url": "string (version 1, to an app only): an http or https address that leaves the widget, which the app opens outside it"
+    }
+  },
+  "toWidget": {
+    "identify": {
+      "token": "string: an identity token the host's server signed; or null (version 1): the host has nobody signed in"
+    },
+    "logout": {},
+    "navigate": {
+      "path": "string (version 1): a path under /widget, with its query"
+    }
+  },
+  "channels": {
+    "about": "How the widget speaks to its host, which it finds once, when it starts, in this order: the page that frames it, else the app whose bridge object is in its page. An app's bridge carries the protocol's messages as JSON text; a frame's, as objects.",
+    "frame": {
+      "when": "the widget's document is framed",
+      "toHost": "postMessage on the frame's parent: an object",
+      "toWidget": "a message event from the parent itself, from an origin the workspace allows (any while it names none, from the page on top only)"
+    },
+    "ios": {
+      "bridge": "webkit.messageHandlers.swingbackHost",
+      "toHost": "the bridge's postMessage: JSON text",
+      "toWidget": "window.postMessage(message, the portal's origin), run by the app in the page's own world: an object"
+    },
+    "android": {
+      "bridge": "swingbackHost",
+      "toHost": "the bridge's postMessage (WebViewCompat.addWebMessageListener's object, in the portal's origin alone): JSON text",
+      "toWidget": "the bridge's onmessage, from the reply proxy of the widget's messages: JSON text"
+    },
+    "react-native": {
+      "bridge": "ReactNativeWebView",
+      "toHost": "the bridge's postMessage: JSON text",
+      "toWidget": "window.postMessage(message, the portal's origin), injected by the app: an object"
+    }
+  },
+  "errors": {
+    "known": [
+      "invalid_identity_token",
+      "validation_failed",
+      "end_user_conflict",
+      "rate_limited",
+      "forbidden",
+      "unavailable"
+    ],
+    "about": "Any other code means the widget couldn't take the request at the time."
+  },
+  "settings": {
+    "version": "integer: the document's format (1)",
+    "portal_url": "string: the portal's canonical address, which messages count from",
+    "accent": "{ color, foreground } (#rrggbb each): the widget's color, else the portal's, and the text that reads on it; or null for the portal's own colors",
+    "position": "left or right: the side of the page the launcher sits on",
+    "theme": "system, light or dark: the portal's look",
+    "language": "the reader's language, one of the seven",
+    "labels": "{ open, close, loading }: the launcher's words, in that language"
+  }
+}

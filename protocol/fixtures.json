@@ -1,0 +1,185 @@
+{
+  "about": "Messages each side must read as written (accept: the message, and what it reads as) or ignore (reject). The widget reads toWidget's; the SDKs read toHost's. Limits (widget-protocol.json) are tested apart.",
+  "toWidget": {
+    "accept": [
+      {
+        "message": { "source": "swingback", "type": "identify", "token": "a.b.c" },
+        "reads": { "type": "identify", "token": "a.b.c" }
+      },
+      {
+        "message": { "source": "swingback", "type": "identify", "token": null },
+        "reads": { "type": "identify", "token": null }
+      },
+      {
+        "message": { "source": "swingback", "type": "logout" },
+        "reads": { "type": "logout" }
+      },
+      {
+        "message": { "source": "swingback", "type": "logout", "reason": "ignored" },
+        "reads": { "type": "logout" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget" },
+        "reads": { "type": "navigate", "path": "/widget" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget/changelog" },
+        "reads": { "type": "navigate", "path": "/widget/changelog" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget/roadmap" },
+        "reads": { "type": "navigate", "path": "/widget/roadmap" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget/new" },
+        "reads": { "type": "navigate", "path": "/widget/new" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget/posts/dark-mode" },
+        "reads": { "type": "navigate", "path": "/widget/posts/dark-mode" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget/boards/ideas" },
+        "reads": { "type": "navigate", "path": "/widget/boards/ideas" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget?q=dark+mode&sort=top" },
+        "reads": { "type": "navigate", "path": "/widget?q=dark+mode&sort=top" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget/./roadmap" },
+        "reads": { "type": "navigate", "path": "/widget/roadmap" }
+      },
+      {
+        "message": { "source": "swingback", "type": "navigate", "path": "/widget/new#title" },
+        "reads": { "type": "navigate", "path": "/widget/new" }
+      }
+    ],
+    "reject": [
+      { "source": "other", "type": "logout" },
+      { "type": "logout" },
+      { "source": "swingback", "type": "identify", "token": "" },
+      { "source": "swingback", "type": "identify" },
+      { "source": "swingback", "type": "identify", "token": 42 },
+      { "source": "swingback", "type": "navigate" },
+      { "source": "swingback", "type": "navigate", "path": "" },
+      { "source": "swingback", "type": "navigate", "path": 42 },
+      { "source": "swingback", "type": "navigate", "path": "widget" },
+      { "source": "swingback", "type": "navigate", "path": "/account" },
+      { "source": "swingback", "type": "navigate", "path": "/widgets" },
+      { "source": "swingback", "type": "navigate", "path": "/widget/../account" },
+      { "source": "swingback", "type": "navigate", "path": "/widget/%2e%2e/account" },
+      { "source": "swingback", "type": "navigate", "path": "//evil.test/widget" },
+      { "source": "swingback", "type": "navigate", "path": "https://evil.test/widget" },
+      { "source": "swingback", "type": "navigate", "path": "/\\evil.test/widget" },
+      { "source": "swingback", "type": "navigate", "path": "javascript:alert(1)" },
+      { "source": "swingback", "type": "navigate", "path": "/widget/\u0000" },
+      { "source": "swingback", "type": "ready", "version": 1 },
+      { "source": "swingback", "type": "open-url", "url": "https://acme.example.com" },
+      { "source": "swingback", "type": "unknown" },
+      "identify",
+      null,
+      42,
+      []
+    ]
+  },
+  "toHost": {
+    "accept": [
+      {
+        "message": { "source": "swingback", "type": "ready", "version": 1 },
+        "reads": { "type": "ready", "version": 1 }
+      },
+      {
+        "message": { "source": "swingback", "type": "ready" },
+        "reads": { "type": "ready", "version": 0 }
+      },
+      {
+        "message": { "source": "swingback", "type": "ready", "version": 2 },
+        "reads": { "type": "ready", "version": 2 }
+      },
+      {
+        "message": { "source": "swingback", "type": "identified" },
+        "reads": { "type": "identified" }
+      },
+      {
+        "message": { "source": "swingback", "type": "signed-out" },
+        "reads": { "type": "signed-out" }
+      },
+      {
+        "message": { "source": "swingback", "type": "error", "code": "rate_limited" },
+        "reads": { "type": "error", "code": "rate_limited" }
+      },
+      {
+        "message": { "source": "swingback", "type": "error", "code": "something_new" },
+        "reads": { "type": "error", "code": "something_new" }
+      },
+      {
+        "message": { "source": "swingback", "type": "open-url", "url": "https://acme.example.com/posts/dark-mode" },
+        "reads": { "type": "open-url", "url": "https://acme.example.com/posts/dark-mode" }
+      },
+      {
+        "message": { "source": "swingback", "type": "open-url", "url": "http://localhost:3000/docs?from=widget" },
+        "reads": { "type": "open-url", "url": "http://localhost:3000/docs?from=widget" }
+      }
+    ],
+    "reject": [
+      { "source": "other", "type": "ready", "version": 1 },
+      { "type": "identified" },
+      { "source": "swingback", "type": "ready", "version": "1" },
+      { "source": "swingback", "type": "ready", "version": 1.5 },
+      { "source": "swingback", "type": "error" },
+      { "source": "swingback", "type": "error", "code": 42 },
+      { "source": "swingback", "type": "identify", "token": "a.b.c" },
+      { "source": "swingback", "type": "open-url" },
+      { "source": "swingback", "type": "open-url", "url": 42 },
+      { "source": "swingback", "type": "open-url", "url": "" },
+      { "source": "swingback", "type": "open-url", "url": "/posts/dark-mode" },
+      { "source": "swingback", "type": "open-url", "url": "//evil.test/posts" },
+      { "source": "swingback", "type": "open-url", "url": "javascript:alert(1)" },
+      { "source": "swingback", "type": "open-url", "url": "file:///etc/hosts" },
+      { "source": "swingback", "type": "open-url", "url": "myapp://settings" },
+      { "source": "swingback", "type": "open-url", "url": "https://" },
+      { "source": "swingback", "type": "open-url", "url": "https://acme.example.com/a b" },
+      { "source": "swingback", "type": "open-url", "url": "https://acme.example.com/\u0000" },
+      { "source": "swingback", "type": "unknown" },
+      "ready",
+      null,
+      42,
+      []
+    ]
+  },
+  "settings": {
+    "about": "A portal's /widget/settings.json (the widget's color, on the left, the dark look, read in French), and what an SDK reads of it at the address https://acme.example.com.",
+    "document": {
+      "version": 1,
+      "portal_url": "https://feedback.acme.com",
+      "accent": {
+        "color": "#1e3a8a",
+        "foreground": "#ffffff"
+      },
+      "position": "left",
+      "theme": "dark",
+      "language": "fr",
+      "labels": {
+        "open": "Suggestions",
+        "close": "Fermer",
+        "loading": "Chargement"
+      }
+    },
+    "reads": {
+      "origin": "https://feedback.acme.com",
+      "accent": {
+        "color": "#1e3a8a",
+        "foreground": "#ffffff"
+      },
+      "position": "left",
+      "theme": "dark",
+      "language": "fr",
+      "labels": {
+        "open": "Suggestions",
+        "close": "Fermer",
+        "loading": "Chargement"
+      }
+    }
+  }
+}
